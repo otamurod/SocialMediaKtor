@@ -9,10 +9,10 @@ import org.koin.ktor.ext.inject
 import uz.otamurod.socialmediaktor.model.AuthResponse
 import uz.otamurod.socialmediaktor.model.SignInParams
 import uz.otamurod.socialmediaktor.model.SignUpParams
-import uz.otamurod.socialmediaktor.repository.user.UserRepository
+import uz.otamurod.socialmediaktor.repository.auth.AuthRepository
 
 fun Routing.authRouting() {
-    val repository by inject<UserRepository>()
+    val repository by inject<AuthRepository>()
 
     route(path = "/signup") {
         post {
