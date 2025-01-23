@@ -1,4 +1,4 @@
-package uz.otamurod.socialmediaktor.repository.user
+package uz.otamurod.socialmediaktor.repository.auth
 
 import io.ktor.http.*
 import uz.otamurod.socialmediaktor.dao.user.UserDao
@@ -10,9 +10,9 @@ import uz.otamurod.socialmediaktor.plugins.generateToken
 import uz.otamurod.socialmediaktor.security.hashPassword
 import uz.otamurod.socialmediaktor.util.Response
 
-class UserRepositoryImpl(
+class AuthRepositoryImpl(
     private val userDao: UserDao
-) : UserRepository {
+) : AuthRepository {
     override suspend fun signUp(params: SignUpParams): Response<AuthResponse> {
         return if (isUserAlreadyExist(params.email)) {
             Response.Error(
@@ -38,7 +38,7 @@ class UserRepositoryImpl(
                             id = newUser.id,
                             username = newUser.username,
                             bio = newUser.bio,
-                            avatar = newUser.avatar,
+                            avatar = newUser.imageUrl,
                             token = generateToken(params.email),
                         )
                     )
