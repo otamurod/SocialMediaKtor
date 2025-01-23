@@ -1,8 +1,10 @@
 package uz.otamurod.socialmediaktor.dao.user
 
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.plus
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 import uz.otamurod.socialmediaktor.dao.DatabaseFactory.dbQuery
 import uz.otamurod.socialmediaktor.model.SignUpParams
 import uz.otamurod.socialmediaktor.model.UserRow
@@ -30,6 +32,28 @@ class UserDaoImpl : UserDao {
             UserTable.selectAll().where { UserTable.email eq email }
                 .map { rowToUser(it) }
                 .singleOrNull()
+        }
+    }
+
+    override suspend fun updateFollowsCount(follower: Long, following: Long, isFollowing: Boolean): Boolean {
+        return dbQuery {
+            val count = if (isFollowing) +1 else -1
+
+            val success1 = UserTable.update({ UserTable.id eq follower }) {
+                it.update(
+                    column = followingCount,
+                    value = followingCount.plus(count)
+                )
+            } > 0
+
+            val success2 = UserTable.update({ UserTable.id eq following }) {
+                it.update(
+                    column = followersCount,
+                    value = followersCount.plus(count)
+                )
+            } > 0
+
+            success1 and success2
         }
     }
 

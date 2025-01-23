@@ -7,13 +7,14 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import uz.otamurod.socialmediaktor.dao.follows.FollowsTable
 import uz.otamurod.socialmediaktor.dao.user.UserTable
 
 object DatabaseFactory {
     fun init() {
         Database.connect(createHikariDataSource())
         transaction {
-            SchemaUtils.create(UserTable)
+            SchemaUtils.create(UserTable, FollowsTable)
         }
     }
 

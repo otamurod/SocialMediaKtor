@@ -66,6 +66,8 @@ class AuthRepositoryImpl(
                             username = user.username,
                             bio = user.bio,
                             token = generateToken(params.email),
+                            followingCount = user.followingCount,
+                            followersCount = user.followersCount
                         )
                     )
                 )
