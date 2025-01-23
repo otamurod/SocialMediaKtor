@@ -3,7 +3,7 @@ package uz.otamurod.socialmediaktor.dao.user
 import org.jetbrains.exposed.sql.Table
 
 object UserTable : Table(name = "users") {
-    val id = integer("user_id").autoIncrement()
+    val id = long("user_id").autoIncrement()
     val username = varchar("user_name", length = 250)
     val email = varchar("user_email", length = 250)
     val bio = text("user_bio").default(

@@ -1,7 +1,7 @@
 package uz.otamurod.socialmediaktor.model
 
 data class UserRow(
-    val id: Int,
+    val id: Long,
     val username: String,
     val bio: String,
     val password: String,

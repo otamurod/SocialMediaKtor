@@ -7,11 +7,13 @@ import uz.otamurod.socialmediaktor.dao.DatabaseFactory.dbQuery
 import uz.otamurod.socialmediaktor.model.SignUpParams
 import uz.otamurod.socialmediaktor.model.UserRow
 import uz.otamurod.socialmediaktor.security.hashPassword
+import uz.otamurod.socialmediaktor.util.IdGenerator
 
 class UserDaoImpl : UserDao {
     override suspend fun insert(params: SignUpParams): UserRow? {
         return dbQuery {
             val insertStatement = UserTable.insert {
+                it[id] = IdGenerator.generateId()
                 it[username] = params.username
                 it[email] = params.email
                 it[password] = hashPassword(params.password)
